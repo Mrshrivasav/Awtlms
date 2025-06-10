@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LMS - Learn. Track. Grow.</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#1E293B',
+                            200: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-dark-100 dark:text-gray-100 transition-colors duration-200 min-h-screen flex flex-col">
+    <!-- Top Navigation -->
+    <nav class="bg-white dark:bg-dark-200 shadow flex items-center justify-between px-6 py-4 sticky top-0 z-10">
+        <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-blue-600">LMS</span>
+            <span class="ml-4 text-gray-500 dark:text-gray-300 font-medium">Home</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-dark-100" title="Toggle light/dark mode">
+                <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                <svg class="w-6 h-6 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            </button>
+            <a href="./login.html" class="text-gray-600 hover:text-blue-600 transition-colors font-medium">Login</a>
+            <a href="./signup.html" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors font-medium">Sign Up</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 md:px-8 py-12 flex flex-col md:flex-row items-center gap-10 hero-section">
+        <div class="flex-1 space-y-6">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-2 hero-title">Learn. Track. Grow.</h1>
+            <div class="text-blue-700 dark:text-blue-200 text-lg font-semibold mb-2 hero-quote">“Empower your future with every lesson.”</div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 hero-desc">Join thousands of learners mastering web development, design, and more with AWT LMS. Interactive courses, real progress, and a supportive community await you.</p>
+            <div class="space-x-4 hero-cta">
+                <a href="./signup.html" class="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">Get Started</a>
+                <a href="./login.html" class="inline-block bg-white text-blue-600 px-8 py-3 rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition-colors font-semibold">Login</a>
+            </div>
+        </div>
+        <div class="flex-1 flex justify-center">
+            <img src="https://images.pexels.com/photos/4145197/pexels-photo-4145197.jpeg?auto=compress&w=600" alt="Hero" class="rounded-xl shadow-lg w-full max-w-md hero-img">
+        </div>
+    </section>
+
+    <!-- Stat Cards -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <div class="bg-blue-600 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold">2,500+</span>
+                <span class="text-sm font-medium">Active Learners</span>
+            </div>
+            <div class="bg-orange-400 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold">120+</span>
+                <span class="text-sm font-medium">Courses Available</span>
+            </div>
+            <div class="bg-blue-400 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold">8,000+</span>
+                <span class="text-sm font-medium">Lessons Completed</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About/Overview Section -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <div class="grid md:grid-cols-2 gap-8 items-center">
+            <div>
+                <h3 class="text-2xl font-bold mb-2 text-blue-700 dark:text-blue-200">About AWT LMS</h3>
+                <p class="text-gray-700 dark:text-gray-300 mb-2">AWT LMS is your gateway to modern, interactive, and effective learning. Our platform is designed to help you master web technologies, track your progress, and achieve your goals with a supportive community and expert resources.</p>
+                <ul class="list-disc pl-5 text-gray-700 dark:text-gray-300 space-y-1">
+                    <li>Interactive lessons and real-world projects</li>
+                    <li>Track your progress and earn certificates</li>
+                    <li>Expert instructors and community support</li>
+                    <li>Flexible learning at your own pace</li>
+                </ul>
+            </div>
+            <img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&w=600" alt="About" class="rounded-xl shadow-lg w-full h-56 object-cover">
+        </div>
+    </section>
+
+    <!-- Featured Courses Listing -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Featured Courses</h3>
+        <div class="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <div class="bg-white dark:bg-dark-200 rounded-xl shadow p-4 flex flex-col items-center">
+                <img src="https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&w=400" alt="HTML Fundamentals" class="w-full h-32 object-cover rounded mb-3">
+                <h4 class="font-semibold text-blue-700 dark:text-blue-200 mb-1">HTML Fundamentals</h4>
+                <p class="text-gray-600 dark:text-gray-300 text-sm text-center">Learn the structure of the web and build your first pages.</p>
+            </div>
+            <div class="bg-white dark:bg-dark-200 rounded-xl shadow p-4 flex flex-col items-center">
+                <img src="https://images.pexels.com/photos/270404/pexels-photo-270404.jpeg?auto=compress&w=400" alt="JavaScript Essentials" class="w-full h-32 object-cover rounded mb-3">
+                <h4 class="font-semibold text-blue-700 dark:text-blue-200 mb-1">JavaScript Essentials</h4>
+                <p class="text-gray-600 dark:text-gray-300 text-sm text-center">Master the language of the web and create dynamic sites.</p>
+            </div>
+            <div class="bg-white dark:bg-dark-200 rounded-xl shadow p-4 flex flex-col items-center">
+                <img src="https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&w=400" alt="Tailwind Mastery" class="w-full h-32 object-cover rounded mb-3">
+                <h4 class="font-semibold text-blue-700 dark:text-blue-200 mb-1">Tailwind Mastery</h4>
+                <p class="text-gray-600 dark:text-gray-300 text-sm text-center">Style beautiful, responsive UIs with utility-first CSS.</p>
+            </div>
+        </div>
+    </section>
+
+    <script type="module">
+        // Theme toggle logic (reuse from dashboard.js)
+        function updateThemeIcon(mode) {
+            if (mode === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        const themeToggle = document.getElementById('themeToggle');
+        function getTheme() {
+            return localStorage.getItem('theme') || 'light';
+        }
+        function setTheme(mode) {
+            localStorage.setItem('theme', mode);
+            document.documentElement.className = mode;
+            updateThemeIcon(mode);
+        }
+        function toggleTheme() {
+            const currentTheme = getTheme();
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+        if (themeToggle) {
+            themeToggle.onclick = toggleTheme;
+            setTheme(getTheme());
+        }
+        // GSAP Animations
+        window.addEventListener('DOMContentLoaded', () => {
+            gsap.from('.hero-title', {y: 40, opacity: 0, duration: 1, ease: 'power3.out'});
+            gsap.from('.hero-quote', {y: 30, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out'});
+            gsap.from('.hero-desc', {y: 20, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power3.out'});
+            gsap.from('.hero-cta', {y: 20, opacity: 0, duration: 0.8, delay: 0.6, ease: 'power3.out'});
+            gsap.from('.hero-img', {x: 40, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out'});
+            gsap.from('.stat-card', {opacity: 0, y: 30, duration: 0.7, stagger: 0.15, delay: 0.2});
+        });
+    </script>
+</body>
+</html> 

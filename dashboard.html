@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - LMS Platform</title>
+    <!-- Favicon SVG -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%233b82f6'/%3E%3Ctext x='32' y='42' font-size='32' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'%3EL%3C/text%3E%3C/svg%3E">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- GSAP CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            100: '#1E293B',
+                            200: '#334155'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50 dark:bg-dark-100 dark:text-gray-100 transition-colors duration-200 min-h-screen flex flex-col">
+    <!-- Top Navigation -->
+    <nav class="bg-white dark:bg-dark-200 shadow flex items-center justify-between px-6 py-4 sticky top-0 z-10">
+        <div class="flex items-center space-x-4">
+            <span class="text-2xl font-bold text-blue-600">LMS</span>
+            <span class="ml-4 text-gray-500 dark:text-gray-300 font-medium">Dashboard</span>
+        </div>
+        <div class="flex items-center space-x-4">
+            <button id="themeToggle" class="p-2 rounded-lg bg-gray-100 dark:bg-dark-100" title="Toggle light/dark mode">
+                <svg class="w-6 h-6 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                <svg class="w-6 h-6 dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+            </button>
+            <button id="logoutBtn" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors">Logout</button>
+        </div>
+    </nav>
+
+    <!-- Hero / Welcome Section -->
+    <section class="container mx-auto px-4 md:px-8 py-10 flex flex-col md:flex-row items-center gap-10 dashboard-hero">
+        <div class="flex-1 space-y-6">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 dark:text-white mb-2 dashboard-title">Welcome back, <span id="userName">Student</span>!</h1>
+            <div class="text-blue-700 dark:text-blue-200 text-lg font-semibold mb-2 dashboard-quote">“Keep learning, keep growing.”</div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4 dashboard-desc">Here's your learning progress and stats. Stay motivated and keep up the great work!</p>
+        </div>
+        <div class="flex-1 flex justify-center">
+            <img src="https://images.pexels.com/photos/4145197/pexels-photo-4145197.jpeg?auto=compress&w=600" alt="Dashboard Hero" class="rounded-xl shadow-lg w-full max-w-md dashboard-img">
+        </div>
+    </section>
+
+    <!-- Stat Cards Row -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <div class="bg-blue-600 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold" id="stat-courses">0</span>
+                <span class="text-sm font-medium">Courses Enrolled</span>
+            </div>
+            <div class="bg-orange-400 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold" id="stat-certificates">0</span>
+                <span class="text-sm font-medium">Certificates Earned</span>
+            </div>
+            <div class="bg-blue-400 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card">
+                <span class="text-3xl font-bold" id="stat-lessons">0</span>
+                <span class="text-sm font-medium">Lessons Completed</span>
+            </div>
+            <div class="bg-green-500 text-white rounded-lg px-8 py-6 flex flex-col items-center shadow stat-card hidden md:flex">
+                <span class="text-3xl font-bold" id="stat-streak">0</span>
+                <span class="text-sm font-medium">Active Streak</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress & Overview Section -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="col-span-2 bg-white dark:bg-dark-200 rounded-xl shadow p-6 flex flex-col">
+                <div class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Overall Progress</div>
+                <div class="flex-1 flex flex-col justify-center">
+                    <div class="w-full bg-gray-200 dark:bg-dark-100 rounded h-4 mb-2">
+                        <div class="bg-blue-500 h-4 rounded progress-bar-overall" style="width: 0%"></div>
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400 mt-1">Your overall course completion</div>
+                </div>
+            </div>
+            <div class="bg-white dark:bg-dark-200 rounded-xl shadow p-6 flex flex-col items-center">
+                <div class="font-semibold text-gray-700 dark:text-gray-200 mb-2">Course Status</div>
+                <div class="flex-1 flex items-center justify-center">
+                    <!-- Donut Chart Placeholder -->
+                    <svg viewBox="0 0 36 36" class="h-32 w-32 opacity-40">
+                        <path fill="none" stroke="#4ade80" stroke-width="3" d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                        <path fill="none" stroke="#fbbf24" stroke-width="3" stroke-dasharray="60, 100" d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831"/>
+                        <text x="18" y="20.35" class="text-xs" text-anchor="middle" fill="#64748b">60%</text>
+                    </svg>
+                </div>
+                <ul class="mt-4 text-xs text-gray-600 dark:text-gray-300" id="course-status-list">
+                    <!-- Status will be filled by JS -->
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Your Courses Grid -->
+    <section class="container mx-auto px-4 md:px-8 mb-10">
+        <h3 class="text-xl font-semibold mb-4 text-gray-800 dark:text-white">Your Courses</h3>
+        <div id="courseGrid" class="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <!-- Course cards will be rendered here -->
+        </div>
+    </section>
+
+    <!-- Course Modal -->
+    <div id="courseModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white dark:bg-dark-200 rounded-xl shadow-lg w-full max-w-2xl p-6 relative modal-content scale-90 opacity-0">
+            <button id="closeModal" class="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl">&times;</button>
+            <h2 id="modalCourseTitle" class="text-2xl font-bold mb-2 text-blue-700 dark:text-blue-200"></h2>
+            <div class="mb-4">
+                <iframe id="modalVideo" class="w-full h-56 rounded" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <h3 class="text-lg font-semibold mb-2 text-gray-800 dark:text-white">Chapters</h3>
+            <ul id="modalChapters" class="space-y-2"></ul>
+        </div>
+    </div>
+
+    <script type="module">
+        import { dashboard, progress } from './js/dashboard.js';
+        import { animateDashboard } from './js/animations.js';
+        // Theme toggle logic (reuse from dashboard.js)
+        function updateThemeIcon(mode) {
+            if (mode === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+        }
+        const themeToggle = document.getElementById('themeToggle');
+        function getTheme() {
+            return localStorage.getItem('theme') || 'light';
+        }
+        function setTheme(mode) {
+            localStorage.setItem('theme', mode);
+            document.documentElement.className = mode;
+            updateThemeIcon(mode);
+        }
+        function toggleTheme() {
+            const currentTheme = getTheme();
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+        if (themeToggle) {
+            themeToggle.onclick = toggleTheme;
+            setTheme(getTheme());
+        }
+        // Dashboard logic
+        document.addEventListener('DOMContentLoaded', () => {
+            dashboard.initialize();
+            animateDashboard.welcome();
+            // Animate hero
+            gsap.from('.dashboard-title', {y: 40, opacity: 0, duration: 1, ease: 'power3.out'});
+            gsap.from('.dashboard-quote', {y: 30, opacity: 0, duration: 0.8, delay: 0.2, ease: 'power3.out'});
+            gsap.from('.dashboard-desc', {y: 20, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power3.out'});
+            gsap.from('.dashboard-img', {x: 40, opacity: 0, duration: 1, delay: 0.3, ease: 'power3.out'});
+            gsap.from('.stat-card', {opacity: 0, y: 30, duration: 0.7, stagger: 0.15, delay: 0.2});
+            // Fill stat cards and progress
+            const userProgress = progress.get();
+            const totalCourses = Object.keys(userProgress).length || 4;
+            const completed = Object.values(userProgress).filter(v => v === 100).length;
+            const lessons = completed * 20 + (totalCourses - completed) * 5;
+            document.getElementById('stat-courses').textContent = totalCourses;
+            document.getElementById('stat-certificates').textContent = completed;
+            document.getElementById('stat-lessons').textContent = lessons;
+            document.getElementById('stat-streak').textContent = Math.max(1, completed);
+            // Animate overall progress bar
+            const percent = totalCourses ? Math.round((completed / totalCourses) * 100) : 0;
+            gsap.to('.progress-bar-overall', {width: percent + '%', duration: 1, ease: 'power3.out'});
+            // Fill course status list
+            const inProgress = Object.values(userProgress).filter(v => v > 0 && v < 100).length;
+            const notStarted = totalCourses - completed - inProgress;
+            document.getElementById('course-status-list').innerHTML = `
+                <li><span class="font-bold text-green-600">${completed}</span> Completed</li>
+                <li><span class="font-bold text-yellow-600">${inProgress}</span> In Progress</li>
+                <li><span class="font-bold text-blue-600">${notStarted}</span> Not Started</li>
+            `;
+        });
+        // --- Modal Logic ---
+        const courseModal = document.getElementById('courseModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalCourseTitle = document.getElementById('modalCourseTitle');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalChapters = document.getElementById('modalChapters');
+        let currentCourseId = null;
+        let currentChapters = [];
+        // Mock chapters and videos for each course
+        const courseDetails = {
+            1: {
+                chapters: ['Introduction', 'HTML Tags', 'Forms', 'Tables', 'Semantic HTML'],
+                video: 'https://www.youtube.com/embed/pQN-pnXPaVg'
+            },
+            2: {
+                chapters: ['Getting Started', 'Utility Classes', 'Responsive Design', 'Customizing', 'Best Practices'],
+                video: 'https://www.youtube.com/embed/dFgzHOX84xQ'
+            },
+            3: {
+                chapters: ['JS Basics', 'Functions', 'DOM Manipulation', 'Events', 'ES6+ Features'],
+                video: 'https://www.youtube.com/embed/W6NZfCO5SIk'
+            },
+            4: {
+                chapters: ['React Intro', 'Components', 'Props & State', 'Hooks', 'Project'],
+                video: 'https://www.youtube.com/embed/bMknfKXIFA8'
+            },
+            5: {
+                chapters: ['Node.js Intro', 'Modules', 'Express', 'APIs', 'Deployment'],
+                video: 'https://www.youtube.com/embed/TlB_eWDSMt4'
+            }
+        };
+        // Open modal with course details
+        window.openCourseModal = function(courseId) {
+            currentCourseId = courseId;
+            const details = courseDetails[courseId];
+            modalCourseTitle.textContent = dashboard.getCourseTitle(courseId);
+            modalVideo.src = details.video;
+            currentChapters = details.chapters;
+            renderChapters();
+            courseModal.classList.remove('hidden');
+            gsap.to('.modal-content', {scale: 1, opacity: 1, duration: 0.4, ease: 'power3.out'});
+        };
+        function closeCourseModal() {
+            gsap.to('.modal-content', {scale: 0.9, opacity: 0, duration: 0.3, ease: 'power3.in', onComplete: () => {
+                courseModal.classList.add('hidden');
+                modalVideo.src = '';
+            }});
+        }
+        if (closeModal) closeModal.onclick = closeCourseModal;
+        courseModal.onclick = (e) => { if (e.target === courseModal) closeCourseModal(); };
+        // Render chapters with toggle
+        function renderChapters() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const userEmail = typeof user === 'string' ? user : (user && user.email);
+            const chapterKey = `chapters_${userEmail || ''}_${currentCourseId}`;
+            let completed = JSON.parse(localStorage.getItem(chapterKey) || '[]');
+            modalChapters.innerHTML = '';
+            currentChapters.forEach((ch, idx) => {
+                const isDone = completed.includes(idx);
+                const li = document.createElement('li');
+                li.className = 'flex items-center justify-between bg-gray-100 dark:bg-dark-100 rounded px-4 py-2';
+                li.innerHTML = `<span>${ch}</span>
+                    <button class="chapter-toggle px-3 py-1 rounded ${isDone ? 'bg-green-500 text-white' : 'bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-gray-200'}" data-idx="${idx}">
+                        ${isDone ? 'Completed' : 'Mark as Complete'}
+                    </button>`;
+                modalChapters.appendChild(li);
+            });
+            // Add toggle logic
+            modalChapters.querySelectorAll('.chapter-toggle').forEach(btn => {
+                btn.onclick = function() {
+                    const idx = parseInt(this.getAttribute('data-idx'));
+                    let completed = JSON.parse(localStorage.getItem(chapterKey) || '[]');
+                    if (completed.includes(idx)) {
+                        completed = completed.filter(i => i !== idx);
+                    } else {
+                        completed.push(idx);
+                    }
+                    localStorage.setItem(chapterKey, JSON.stringify(completed));
+                    updateCourseProgress(currentCourseId, completed.length, currentChapters.length);
+                    renderChapters();
+                    dashboard.renderCourses();
+                    updateOverallProgress();
+                };
+            });
+        }
+        // Update course progress in localStorage
+        function updateCourseProgress(courseId, completedChapters, totalChapters) {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            const userEmail = typeof user === 'string' ? user : (user && user.email);
+            const progKey = `progress_${userEmail}`;
+            let prog = JSON.parse(localStorage.getItem(progKey) || '{}');
+            prog[courseId] = Math.round((completedChapters / totalChapters) * 100);
+            localStorage.setItem(progKey, JSON.stringify(prog));
+        }
+        // Update overall progress bar and stats
+        function updateOverallProgress() {
+            const userProgress = progress.get();
+            const totalCourses = Object.keys(userProgress).length || 4;
+            const completed = Object.values(userProgress).filter(v => v === 100).length;
+            const lessons = completed * 20 + (totalCourses - completed) * 5;
+            document.getElementById('stat-courses').textContent = totalCourses;
+            document.getElementById('stat-certificates').textContent = completed;
+            document.getElementById('stat-lessons').textContent = lessons;
+            document.getElementById('stat-streak').textContent = Math.max(1, completed);
+            const percent = totalCourses ? Math.round((completed / totalCourses) * 100) : 0;
+            gsap.to('.progress-bar-overall', {width: percent + '%', duration: 1, ease: 'power3.out'});
+            const inProgress = Object.values(userProgress).filter(v => v > 0 && v < 100).length;
+            const notStarted = totalCourses - completed - inProgress;
+            document.getElementById('course-status-list').innerHTML = `
+                <li><span class="font-bold text-green-600">${completed}</span> Completed</li>
+                <li><span class="font-bold text-yellow-600">${inProgress}</span> In Progress</li>
+                <li><span class="font-bold text-blue-600">${notStarted}</span> Not Started</li>
+            `;
+        }
+        // Add openCourseModal to course cards after rendering
+        const origRenderCourses = dashboard.renderCourses;
+        dashboard.renderCourses = function() {
+            origRenderCourses.call(dashboard);
+            document.querySelectorAll('#courseGrid .course-card').forEach((card, idx) => {
+                card.onclick = () => openCourseModal(idx + 1);
+            });
+        };
+        // Helper to get course title
+        dashboard.getCourseTitle = function(courseId) {
+            const titles = [
+                'HTML Fundamentals',
+                'Tailwind Mastery',
+                'JavaScript Essentials',
+                'React Basics',
+                'Node.js Kickstart'
+            ];
+            return titles[courseId - 1] || 'Course';
+        };
+    </script>
+</body>
+</html> 
